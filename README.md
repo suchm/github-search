@@ -13,13 +13,13 @@ Pre-requisites:
 npm install -g @angular/cli
 ```
 
-Clone the git files from https://github.com/suchm/github-search to a local repository.
+Clone the repo from https://github.com/suchm/github-search to a local repository.
 
 cd into the repository.
 
 Generate a `personal access token` (https://github.com/settings/tokens)
 
-Add the token to `githubToken` variable in `src\environments\environment.development.ts` (this token is required for the code requests).
+Add the token to the `githubToken` variable in `src\environments\environment.development.ts` (this token is required for the code requests).
 
 Run the following command to build dependancies and serve the app:
 
@@ -27,7 +27,7 @@ Run the following command to build dependancies and serve the app:
 npm start
 ```
 
-Now go to http://localhost:4200/ in your browser to view the app.
+Navigate to http://localhost:4200/ in your browser to view the app.
 
 
 
