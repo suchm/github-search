@@ -1,6 +1,6 @@
 # GitHub Search
 
-The GitHub Search tool is built with Angular 18, Angular Material 3 and uses the GitHub REST API to search GitHub for issues, code, commits, repos, topics and users. Just select the search option you want to use and enter a search query to search the GitHub database.
+The GitHub Search tool is built with Angular 18, Angular Material 3 and uses the GitHub REST API to search GitHub by issues, code, commits, repos, topics and users. Just select the search option you want to use and enter a search query to target the GitHub database.
 
 ## Installation
 
