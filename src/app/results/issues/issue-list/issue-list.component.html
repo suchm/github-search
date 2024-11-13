@@ -1,0 +1,15 @@
+<mat-card *ngFor="let issue of issues; let id = index">
+  <mat-card-header>
+    <mat-card-title>{{ issue.title }}</mat-card-title>
+    <div class="subtitle-wrap">
+      <mat-card-subtitle>{{ issue.user.login }}</mat-card-subtitle><span class="subtitle-divide">|</span><mat-card-subtitle>{{ issue.created_at | date: 'dd-MM-yyyy' }}</mat-card-subtitle>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <p>{{ issue.body | slice:0:500 }}...</p>
+  </mat-card-content>
+  <mat-card-actions>
+    <a mat-flat-button [routerLink]="['issues', ((page - 1) * perPage) + id + 1]">More Details</a>
+    <a mat-button href="{{ issue.html_url }}" class="github-link double-arrow" target="_blank">View on GitHub</a>
+  </mat-card-actions>
+</mat-card>

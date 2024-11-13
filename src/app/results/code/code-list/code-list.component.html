@@ -1,0 +1,18 @@
+<mat-card *ngFor="let codeItem of code; let id = index">
+  <mat-card-header>
+    <mat-card-title>{{ codeItem.name }}</mat-card-title> <!-- Display file name -->
+    <mat-card-subtitle>{{ codeItem.repository.full_name }}</mat-card-subtitle> <!-- Display repository name -->
+  </mat-card-header>
+
+  <mat-card-content>
+    <p>Path: {{ codeItem.path }}</p> <!-- Display file path -->
+    <p>Repository:
+      <a href="{{ codeItem.repository.html_url }}" target="_blank">{{ codeItem.repository.full_name }}</a>
+    </p>
+  </mat-card-content>
+
+  <mat-card-actions>
+    <a mat-flat-button [routerLink]="['code', ((page - 1) * perPage) + id + 1]">More Details</a>
+    <a mat-button href="{{ codeItem.html_url }}" target="_blank" class="github-link double-arrow">View on GitHub</a>
+  </mat-card-actions>
+</mat-card>

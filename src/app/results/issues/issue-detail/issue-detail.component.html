@@ -1,0 +1,67 @@
+<app-search (searchResult)="onSearchResult($event)"></app-search>
+
+<div class="container">
+  <!-- Back button -->
+  <button mat-fab extended (click)="goBack()" aria-label="Back">
+    <mat-icon>arrow_back</mat-icon> Back
+  </button>
+
+  <!-- Title and Status -->
+  <div *ngIf="issueDetail.title?.length">
+  <mat-card class="title-card">
+    <mat-card-header class="card-header">
+      <div class="title-container">
+        <mat-card-title class="main-title">{{ issueDetail.title }}</mat-card-title>
+      </div>
+      <div class="subtitle-container">
+        <mat-card-subtitle>
+          <span class="status" [ngClass]="{'open': issueDetail.state === 'open', 'closed': issueDetail.state === 'closed'}">
+            <mat-icon>{{ issueDetail.state === 'open' ? 'check_circle' : 'cancel' }}</mat-icon>
+            {{ issueDetail.state | uppercase }}
+          </span>
+        </mat-card-subtitle>
+      </div>
+    </mat-card-header>
+
+    <mat-divider *ngIf="issueDetail.labels?.length"></mat-divider>
+
+    <mat-card-content>
+      <mat-chip-grid *ngIf="issueDetail.labels?.length">
+        <mat-chip *ngFor="let label of issueDetail.labels">{{ label.name }}</mat-chip>
+      </mat-chip-grid>
+    </mat-card-content>
+
+    <mat-divider></mat-divider>
+
+    <mat-card-content>
+      <p><strong>Created by:</strong> {{ issueDetail.user.login }} | {{ issueDetail.created_at | date:'medium' }}</p>
+      <p *ngIf="issueDetail.assignee"><strong>Assigned to:</strong> {{ issueDetail.assignee.login }}</p>
+    </mat-card-content>
+
+    <mat-card-header>
+      <mat-card-title class="description-title">Description</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p>{{ issueDetail.body }}</p>
+    </mat-card-content>
+
+    <mat-divider *ngIf="issueDetail.comments > 0"></mat-divider>
+
+    <!-- Comments Section -->
+    <div class="comments-card" *ngIf="issueDetail.comments > 0">
+      <mat-card-header class="comments-header">
+        <mat-card-title class="comments-title">Comments</mat-card-title>
+      </mat-card-header>
+      <mat-list>
+        <mat-list-item *ngFor="let comment of issueDetail.commentsList">
+          <mat-icon aria-hidden="false" aria-label="Comment icon" fontIcon="comment">comment</mat-icon>
+          <div>{{ comment.user.login }} - {{ comment.created_at | date:'short' }}</div>
+          <p>{{ comment.body }}</p>
+        </mat-list-item>
+      </mat-list>
+    </div>
+
+    <a mat-flat-button href="{{ issueDetail.html_url }}" class="github-link double-arrow" target="_blank">View on GitHub</a>
+
+  </mat-card>
+</div>

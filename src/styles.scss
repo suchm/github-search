@@ -1,0 +1,19 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: #efefef;
+}
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+.double-arrow::after {
+  content: " »"; /* Adds a space before the arrow */
+  padding-left: 5px;
+  font-size: 1.1rem;
+  margin-top: -4px;
+}

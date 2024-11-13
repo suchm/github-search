@@ -1,0 +1,72 @@
+.sticky {
+  position: sticky;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  border-radius: 0px;
+}
+
+mat-card {
+  padding: 20px;
+  text-align: center;
+}
+
+mat-form-field {
+  max-width: 500px;
+  width: 100%;
+  margin-right: 20px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center; /* Centers items vertically */
+  justify-content: center; /* Centers items horizontally */
+  gap: 8px; /* Optional: Adds spacing between input and button */
+
+  .search-input {
+    flex: 1; /* Make input field take up the available space */
+    margin-right: 8px;
+
+    .mat-mdc-form-field-bottom-align {
+      background: black;
+      display: none;
+    }
+  }
+
+  .mdc-button.search-btn {
+    font-size: 24px;
+    background: #00dddd;
+    margin-top: -17px;
+
+    .material-symbols-outlined {
+      color: black;
+      vertical-align: middle;
+    }
+  }
+}
+
+.mat-mdc-card-title {
+  font-family: "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  margin-bottom: 20px;
+  font-weight: lighter;
+  color: ghostwhite;
+}
+
+.mat-mdc-radio-button {
+  margin-right: 20px;
+}
+
+.mdc-text-field__input {
+
+}
+
+.flex-align-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.octicon path {
+  fill: ghostwhite;
+}

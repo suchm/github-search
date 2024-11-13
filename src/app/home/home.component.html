@@ -1,0 +1,41 @@
+
+<app-search (searchResult)="onSearchResult($event)"></app-search>
+
+<mat-paginator
+  [length]="totalResults"
+  [pageSize]="pageSize"
+  [pageSizeOptions]="[10, 20, 30, 50]"
+  (page)="onPageChange($event)"
+  [disabled]="loading"
+>
+</mat-paginator>
+
+<div class="container">
+
+  <ng-template #noResults>
+    <p class="no-results">Enter a search query in the above field to display results here.</p>
+  </ng-template>
+
+  <div *ngIf="results.length > 0; else noResults">
+    <ng-container *ngIf="selectedOption === 'issues'">
+      <app-issue-list [issues]="results" [page]="currentPage" [perPage]="pageSize"></app-issue-list>
+    </ng-container>
+    <ng-container *ngIf="selectedOption === 'code'">
+      <app-code-list [code]="results" [page]="currentPage" [perPage]="pageSize"></app-code-list>
+    </ng-container>
+    <ng-container *ngIf="selectedOption === 'commits'">
+      <app-commits-list [commits]="results" [page]="currentPage" [perPage]="pageSize"></app-commits-list>
+    </ng-container>
+    <ng-container *ngIf="selectedOption === 'repositories'">
+      <app-repos-list [repos]="results" [page]="currentPage" [perPage]="pageSize"></app-repos-list>
+    </ng-container>
+    <ng-container *ngIf="selectedOption === 'topics'">
+      <app-topics-list [topics]="results" [page]="currentPage" [perPage]="pageSize"></app-topics-list>
+    </ng-container>
+    <ng-container *ngIf="selectedOption === 'users'">
+      <app-users-list [users]="results" [page]="currentPage" [perPage]="pageSize"></app-users-list>
+    </ng-container>
+  </div>
+</div>
+
+
