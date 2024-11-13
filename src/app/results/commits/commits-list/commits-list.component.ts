@@ -11,4 +11,5 @@ export class CommitsListComponent {
   @Input() commits: any[] = [];
   @Input() page!: number;
   @Input() perPage!: number;
+  @Input() limit!: number;
 }

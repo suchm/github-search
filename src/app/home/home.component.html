@@ -1,5 +1,8 @@
 
-<app-search (searchResult)="onSearchResult($event)"></app-search>
+<app-search
+  (searchResult)="onSearchResult($event)"
+  (sliderValueChange)="onSliderValueChange($event)"
+></app-search>
 
 <mat-paginator
   [length]="totalResults"
@@ -18,22 +21,52 @@
 
   <div *ngIf="results.length > 0; else noResults">
     <ng-container *ngIf="selectedOption === 'issues'">
-      <app-issue-list [issues]="results" [page]="currentPage" [perPage]="pageSize"></app-issue-list>
+      <app-issue-list
+        [issues]="results"
+        [page]="currentPage"
+        [perPage]="pageSize"
+        [limit]="wordLimit"
+      ></app-issue-list>
     </ng-container>
     <ng-container *ngIf="selectedOption === 'code'">
-      <app-code-list [code]="results" [page]="currentPage" [perPage]="pageSize"></app-code-list>
+      <app-code-list
+        [code]="results"
+        [page]="currentPage"
+        [perPage]="pageSize"
+        [limit]="wordLimit"
+      ></app-code-list>
     </ng-container>
     <ng-container *ngIf="selectedOption === 'commits'">
-      <app-commits-list [commits]="results" [page]="currentPage" [perPage]="pageSize"></app-commits-list>
+      <app-commits-list
+        [commits]="results"
+        [page]="currentPage"
+        [perPage]="pageSize"
+        [limit]="wordLimit"
+      ></app-commits-list>
     </ng-container>
     <ng-container *ngIf="selectedOption === 'repositories'">
-      <app-repos-list [repos]="results" [page]="currentPage" [perPage]="pageSize"></app-repos-list>
+      <app-repos-list
+        [repos]="results"
+        [page]="currentPage"
+        [perPage]="pageSize"
+        [limit]="wordLimit"
+      ></app-repos-list>
     </ng-container>
     <ng-container *ngIf="selectedOption === 'topics'">
-      <app-topics-list [topics]="results" [page]="currentPage" [perPage]="pageSize"></app-topics-list>
+      <app-topics-list
+        [topics]="results"
+        [page]="currentPage"
+        [perPage]="pageSize"
+        [limit]="wordLimit"
+      ></app-topics-list>
     </ng-container>
     <ng-container *ngIf="selectedOption === 'users'">
-      <app-users-list [users]="results" [page]="currentPage" [perPage]="pageSize"></app-users-list>
+      <app-users-list
+        [users]="results"
+        [page]="currentPage"
+        [perPage]="pageSize"
+        [limit]="wordLimit"
+      ></app-users-list>
     </ng-container>
   </div>
 </div>

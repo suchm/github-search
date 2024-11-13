@@ -36,12 +36,17 @@ export class HomeComponent implements OnInit {
   pageSize: number = this.githubApiService.DEFAULT_PAGE_SIZE;
   currentPage: number = this.githubApiService.DEFAULT_PAGE;
   loading: boolean = false;
+  wordLimit: number = 200;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit() {
     this.pageSize = this.githubApiService.getStoredPageSize();
     this.currentPage = this.githubApiService.getStoredPage();
+  }
+
+  onSliderValueChange(value: number): void {
+    this.wordLimit = value; // Update sliderValue whenever it changes in the SearchComponent
   }
 
   onSearchResult(result: {

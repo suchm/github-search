@@ -25,6 +25,7 @@ export class IssueListComponent implements OnInit{
   @Input() issues: any[] = [];
   @Input() page!: number;
   @Input() perPage!: number;
+  @Input() limit!: number;
 
   ngOnInit() {
     // console.log(this.issues);

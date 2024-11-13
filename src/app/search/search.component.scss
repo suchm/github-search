@@ -3,7 +3,7 @@
   width: 100%;
   top: 0;
   z-index: 1000;
-  border-radius: 0px;
+  border-radius: 0;
 }
 
 mat-card {
@@ -19,18 +19,13 @@ mat-form-field {
 
 .search-container {
   display: flex;
-  align-items: center; /* Centers items vertically */
-  justify-content: center; /* Centers items horizontally */
-  gap: 8px; /* Optional: Adds spacing between input and button */
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 
   .search-input {
-    flex: 1; /* Make input field take up the available space */
+    flex: 1;
     margin-right: 8px;
-
-    .mat-mdc-form-field-bottom-align {
-      background: black;
-      display: none;
-    }
   }
 
   .mdc-button.search-btn {
@@ -52,6 +47,10 @@ mat-form-field {
   color: ghostwhite;
 }
 
+.radio-wrap {
+  margin-top: 20px;
+}
+
 .mat-mdc-radio-button {
   margin-right: 20px;
 }
@@ -65,4 +64,55 @@ mat-form-field {
 
 .octicon path {
   fill: ghostwhite;
+}
+
+.mat-slider-wrap {
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  label {
+    margin-top: 21px;
+    font-size: small;
+  }
+
+  mat-slider {
+    max-width: 300px;
+    width: 100%;
+    margin-top: 20px;
+  }
+}
+
+.toggle-btn-wrap {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 0;
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    min-width: 150px;
+
+    label {
+      font-weight: lighter;
+      font-size: 15px;
+      color: #fff;
+    }
+
+    .mat-mdc-icon-button {
+      background: #333;
+      width: 36px;
+      height: 36px;
+      padding: 6px;
+      margin-left: 8px;
+    }
+  }
+}
+
+.info-button {
+  font-size: 16px;
+  margin-top: 20px;
 }

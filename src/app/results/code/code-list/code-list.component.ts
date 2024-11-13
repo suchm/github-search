@@ -25,4 +25,5 @@ export class CodeListComponent {
   @Input() code: any[] = [];
   @Input() page!: number;
   @Input() perPage!: number;
+  @Input() limit!: number;
 }

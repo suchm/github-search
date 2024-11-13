@@ -11,4 +11,5 @@ export class TopicsListComponent {
   @Input() topics: any[] = [];
   @Input() page!: number;
   @Input() perPage!: number;
+  @Input() limit!: number;
 }

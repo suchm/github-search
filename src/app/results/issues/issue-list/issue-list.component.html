@@ -6,7 +6,7 @@
     </div>
   </mat-card-header>
   <mat-card-content>
-    <p>{{ issue.body | slice:0:500 }}...</p>
+    <p>{{ issue.body | slice:0:limit }}...</p>
   </mat-card-content>
   <mat-card-actions>
     <a mat-flat-button [routerLink]="['issues', ((page - 1) * perPage) + id + 1]">More Details</a>

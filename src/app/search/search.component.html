@@ -14,7 +14,24 @@
 
       <button mat-raised-button class="search-btn" type="submit"><span class="material-symbols-outlined">search</span></button>
     </div>
-    <div>
+
+    <div class="toggle-btn-wrap">
+      <div class="section-header">
+        <label>Select Option</label>
+        <button mat-icon-button (click)="toggleRadioGroup()">
+          <mat-icon>{{ isRadioGroupExpanded ? 'remove' : 'add' }}</mat-icon>
+        </button>
+      </div>
+
+      <div class="section-header">
+        <label>Word Limit</label>
+        <button mat-icon-button (click)="toggleSlider()">
+          <mat-icon>{{ isSliderExpanded ? 'remove' : 'add' }}</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="isRadioGroupExpanded" class="radio-wrap">
     <mat-radio-group [(ngModel)]="selectedOption" name="searchOption" aria-label="Select an option">
       <mat-radio-button value="issues">Issues</mat-radio-button>
       <mat-radio-button value="code">Code</mat-radio-button>
@@ -23,6 +40,24 @@
       <mat-radio-button value="topics">Topics</mat-radio-button>
       <mat-radio-button value="users">Users</mat-radio-button>
     </mat-radio-group>
+    </div>
+
+
+    <div class="mat-slider-wrap" *ngIf="isSliderExpanded">
+      <button mat-icon-button class="info-button" (click)="openInfoDialog()" aria-label="Info">
+        <mat-icon>info</mat-icon>
+      </button>
+      <mat-slider
+        [disabled]="sliderDisabled"
+        [max]="sliderMax"
+        [min]="sliderMin"
+        [step]="sliderStep"
+        [discrete]="sliderThumbLabel"
+        (input)="onSliderChange()"
+        [displayWith]="formatLabel"
+      >
+        <input matSliderThumb name="word-limit" [(ngModel)]="sliderValue">
+      </mat-slider>
     </div>
 
   </form>

@@ -1,15 +1,21 @@
-import {Component, Output, EventEmitter, OnInit, inject} from '@angular/core';
+import { Component, Output, EventEmitter, OnInit, inject } from '@angular/core';
 import { GithubApiService } from '../github-api.service';
 import { MatCard, MatCardTitle } from '@angular/material/card';
 import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatLabel } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatToolbar } from '@angular/material/toolbar';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { MatPaginator, } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
+import { MatSlider, MatSliderThumb } from '@angular/material/slider';
+import { MatIcon } from '@angular/material/icon';
+import { CommonModule } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { InfoDialogComponent } from '../info-dialog/info-dialog.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-search',
@@ -25,17 +31,36 @@ import { ActivatedRoute } from '@angular/router';
     MatToolbar,
     MatRadioGroup,
     MatRadioButton,
-    MatPaginator
+    MatPaginator,
+    MatSlider,
+    MatSliderThumb,
+    MatIcon,
+    MatIconButton,
+    CommonModule
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss'
 })
 export class SearchComponent implements OnInit {
-  route: ActivatedRoute  = inject(ActivatedRoute );
+  route: ActivatedRoute  = inject(ActivatedRoute);
+  githubApiService: GithubApiService = inject(GithubApiService);
+  dialog: MatDialog = inject(MatDialog);
   searchQuery: string = '';
   selectedOption: string = 'issues'; // Set the default option here
   pageSize: number = 20;
   currentPage: number = 1;
+
+  // Mat Slider values
+  sliderDisabled: boolean = false;
+  sliderMax: number = 999;
+  sliderMin: number = 0;
+  sliderStep: number = 1;
+  sliderThumbLabel: boolean = true;
+  sliderValue: number = 200;
+
+  // Toggle Flags
+  isRadioGroupExpanded: boolean = true;
+  isSliderExpanded: boolean = true;
 
   // Emit search results to parent component
   @Output() searchResult = new EventEmitter<{
@@ -47,19 +72,24 @@ export class SearchComponent implements OnInit {
     query: string
   }>();
 
-  constructor(private githubApiService: GithubApiService) {}
+  @Output() sliderValueChange = new EventEmitter<number>();
 
   ngOnInit(): void {
+    // Initialise pagination values
     this.searchQuery = this.githubApiService.getStoredQuery() || '';
     this.pageSize = this.githubApiService.getStoredPageSize();
     this.currentPage = this.githubApiService.getStoredPage();
     this.selectedOption = this.githubApiService.getSelectedOption();
 
     const currentPath = this.route.snapshot.routeConfig?.path;
-
     if ( currentPath === '' ) {
       this.onSearch();
     }
+  }
+
+  onSliderChange(): void {
+    console.log(this.sliderValue);
+    this.sliderValueChange.emit(this.sliderValue); // Emit the slider value whenever it changes
   }
 
   onSearch(): void {
@@ -84,5 +114,28 @@ export class SearchComponent implements OnInit {
       });
 
     }
+  }
+
+  formatLabel(value: number): string {
+    if (value >= 1000) {
+      return Math.round(value / 1000).toString();
+    }
+
+    return `${value}`;
+  }
+
+  toggleRadioGroup() {
+    this.isRadioGroupExpanded = !this.isRadioGroupExpanded;
+  }
+
+  toggleSlider() {
+    this.isSliderExpanded = !this.isSliderExpanded;
+  }
+
+  openInfoDialog(): void {
+    this.dialog.open(InfoDialogComponent, {
+      width: '300px',
+      data: { message: 'Additional information about this section.' }
+    });
   }
 }

@@ -16,4 +16,5 @@ export class ReposListComponent {
   @Input() repos: any[] = [];
   @Input() page!: number;
   @Input() perPage!: number;
+  @Input() limit!: number;
 }

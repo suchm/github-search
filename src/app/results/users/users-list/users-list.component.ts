@@ -11,4 +11,5 @@ export class UsersListComponent {
   @Input() users: any[] = [];
   @Input() page!: number;
   @Input() perPage!: number;
+  @Input() limit!: number;
 }
