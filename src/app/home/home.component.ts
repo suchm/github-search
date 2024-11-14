@@ -31,18 +31,20 @@ export class HomeComponent implements OnInit {
   githubApiService: GithubApiService = inject(GithubApiService);
   results: any = []; // Add this property to store the search results
   query: string | null = '';
-  selectedOption: string = 'issues';
-  totalResults: number = 0;
+  selectedOption: string = this.githubApiService.DEFAULT_SEARCH_OPTION;
   pageSize: number = this.githubApiService.DEFAULT_PAGE_SIZE;
   currentPage: number = this.githubApiService.DEFAULT_PAGE;
+  totalResults: number = 0;
+  wordLimit: number = this.githubApiService.DEFAULT_WORD_LIMIT;
   loading: boolean = false;
-  wordLimit: number = 200;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   ngOnInit() {
     this.pageSize = this.githubApiService.getStoredPageSize();
     this.currentPage = this.githubApiService.getStoredPage();
+    this.selectedOption = this.githubApiService.getStoredSearchOption();
+    this.wordLimit = this.githubApiService.getStoredWordLimit();
   }
 
   onSliderValueChange(value: number): void {

@@ -9,16 +9,21 @@ import { tap, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class GithubApiService {
+
   private readonly BASE_URL: string = 'https://api.github.com/search';
-  private readonly tokenOptions: string[] = ['code'];
+  http: HttpClient = inject(HttpClient);
+
   private cache = new Map<string, any>();
+  private CACHE_EXPIRATION_MS = 5 * 60 * 1000; // Set to 2 minutes
+
   private searchResultsSubject = new BehaviorSubject<GithubSearchResponse | null>(null);
   searchResults$ = this.searchResultsSubject.asObservable();
-  http: HttpClient = inject(HttpClient);
 
   // Centralized default values
   readonly DEFAULT_PAGE = 1;
   readonly DEFAULT_PAGE_SIZE = 10;
+  readonly DEFAULT_WORD_LIMIT = 200;
+  readonly DEFAULT_SEARCH_OPTION = 'issues';
 
   // Current pagination settings
   page: number = this.DEFAULT_PAGE;
@@ -38,7 +43,8 @@ export class GithubApiService {
     const url: string = `${this.BASE_URL}/${type}?q=${query}&page=${page}&per_page=${perPage}`;
 
     if (this.cache.has(url)) {
-      return of(this.cache.get(url)); // Return cached data as an observable
+      const results = this.cache.get(url);
+      return of(results.data); // Return cached data as an observable
     }
 
     let headers: HttpHeaders = new HttpHeaders();
@@ -51,13 +57,15 @@ export class GithubApiService {
 
     return this.http.get<GithubSearchResponse>(url, { headers }).pipe(
       tap(response => {
-        this.cache.set(url, response); // Cache the response
+
+        const expiration = Date.now() + this.CACHE_EXPIRATION_MS;
+        this.cache.set(url, { data: response, expiration }); // Cache the response
 
         sessionStorage.setItem('searchResults', JSON.stringify(response));
         sessionStorage.setItem('searchQuery', query);
         sessionStorage.setItem('currentPage', String(page));
         sessionStorage.setItem('perPage', String(perPage));
-        sessionStorage.setItem('selectedOption', String(type));
+        sessionStorage.setItem('searchOption', String(type));
 
         this.searchResultsSubject.next(response); // Update the BehaviorSubject with the latest data
       })
@@ -74,7 +82,7 @@ export class GithubApiService {
         } else {
           // Fallback to stored results if searchResults$ has no data
           const storedResults = this.getStoredResults();
-          return storedResults && storedResults.items.length > index ? storedResults.items[index] : null;
+          return storedResults && storedResults.items.length > index ? storedResults.items[index] : [];
         }
       })
     );
@@ -87,7 +95,7 @@ export class GithubApiService {
   }
 
   getStoredQuery(): string | '' {
-    return sessionStorage.getItem('searchQuery') ?? '';
+    return sessionStorage.getItem('searchQuery') || '';
   }
 
   getStoredPage(): number {
@@ -98,7 +106,11 @@ export class GithubApiService {
     return Number(sessionStorage.getItem('perPage')) || this.DEFAULT_PAGE_SIZE;
   }
 
-  getSelectedOption(): string {
-    return sessionStorage.getItem('selectedOption') ?? 'issues';
+  getStoredSearchOption(): string {
+    return sessionStorage.getItem('searchOption') || this.DEFAULT_SEARCH_OPTION;
+  }
+
+  getStoredWordLimit(): number {
+    return Number(sessionStorage.getItem('wordLimit')) || this.DEFAULT_WORD_LIMIT;
   }
 }

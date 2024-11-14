@@ -15,11 +15,22 @@ import { MatIcon } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { InfoDialogComponent } from '../info-dialog/info-dialog.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-search',
   standalone: true,
+  animations: [
+    trigger('dropDown', [
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(-10px)' }),
+        animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-in', style({ opacity: 0, transform: 'translateY(-10px)' }))
+      ]),
+    ]),
+  ],
   imports: [
     MatCard,
     MatCardTitle,
@@ -62,6 +73,9 @@ export class SearchComponent implements OnInit {
   isRadioGroupExpanded: boolean = true;
   isSliderExpanded: boolean = true;
 
+  // Error Flag
+  showError: boolean = false;
+
   // Emit search results to parent component
   @Output() searchResult = new EventEmitter<{
     data: any[],
@@ -79,7 +93,8 @@ export class SearchComponent implements OnInit {
     this.searchQuery = this.githubApiService.getStoredQuery() || '';
     this.pageSize = this.githubApiService.getStoredPageSize();
     this.currentPage = this.githubApiService.getStoredPage();
-    this.selectedOption = this.githubApiService.getSelectedOption();
+    this.selectedOption = this.githubApiService.getStoredSearchOption();
+    this.sliderValue = this.githubApiService.getStoredWordLimit();
 
     const currentPath = this.route.snapshot.routeConfig?.path;
     if ( currentPath === '' ) {
@@ -88,7 +103,7 @@ export class SearchComponent implements OnInit {
   }
 
   onSliderChange(): void {
-    console.log(this.sliderValue);
+    sessionStorage.setItem('wordLimit', String(this.sliderValue));
     this.sliderValueChange.emit(this.sliderValue); // Emit the slider value whenever it changes
   }
 
@@ -113,6 +128,12 @@ export class SearchComponent implements OnInit {
 
       });
 
+    } else {
+      this.showError = true;
+
+      setTimeout(() => {
+        this.showError = false;
+      }, 3000);
     }
   }
 
@@ -126,10 +147,12 @@ export class SearchComponent implements OnInit {
 
   toggleRadioGroup() {
     this.isRadioGroupExpanded = !this.isRadioGroupExpanded;
+    sessionStorage.setItem('showSearchOptions', String(this.isRadioGroupExpanded));
   }
 
   toggleSlider() {
     this.isSliderExpanded = !this.isSliderExpanded;
+    sessionStorage.setItem('showSlider', String(this.isRadioGroupExpanded));
   }
 
   openInfoDialog(): void {
