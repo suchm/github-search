@@ -21,13 +21,16 @@ Generate a `personal access token` (https://github.com/settings/tokens)
 
 Add the token to the `githubToken` variable in `src\environments\environment.development.ts` (this token is required for the code requests).
 
-Run the following command to build dependancies and serve the app:
+Install project dependancies:
+
+```bash
+npm install
+```
+
+Run the following command to build and serve the app:
 
 ```bash
 npm start
 ```
 
 Navigate to http://localhost:4200/ in your browser to view the app.
-
-
-
