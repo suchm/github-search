@@ -70,11 +70,12 @@ export class SearchComponent implements OnInit {
   sliderValue: number = 200;
 
   // Toggle Flags
-  isRadioGroupExpanded: boolean = true;
-  isSliderExpanded: boolean = true;
+  isRadioGroupExpanded: boolean = false;
+  isSliderExpanded: boolean = false;
 
   // Error Flag
   showError: boolean = false;
+  allowError: boolean = false;
 
   // Emit search results to parent component
   @Output() searchResult = new EventEmitter<{
@@ -129,11 +130,14 @@ export class SearchComponent implements OnInit {
       });
 
     } else {
-      this.showError = true;
+      if ( this.allowError ) {
+        this.showError = true;
 
-      setTimeout(() => {
-        this.showError = false;
-      }, 3000);
+        setTimeout(() => {
+          this.showError = false;
+        }, 3000);
+      }
+      this.allowError = true;
     }
   }
 
