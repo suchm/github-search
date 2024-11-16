@@ -165,4 +165,10 @@ export class SearchComponent implements OnInit {
       data: { message: 'Additional information about this section.' }
     });
   }
+
+  clearSearch() {
+    this.searchQuery = '';
+    this.currentPage = this.githubApiService.DEFAULT_PAGE;
+    this.pageSize = this.githubApiService.DEFAULT_PAGE_SIZE;
+  }
 }

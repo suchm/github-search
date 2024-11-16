@@ -13,7 +13,7 @@ import {MatIcon} from '@angular/material/icon';
   styleUrl: './repos-list.component.scss'
 })
 export class ReposListComponent {
-  @Input() repos: any[] = [];
+  @Input() results: any[] = [];
   @Input() page!: number;
   @Input() perPage!: number;
   @Input() limit!: number;

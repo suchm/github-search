@@ -8,7 +8,7 @@ import {Component, Input} from '@angular/core';
   styleUrl: './commits-list.component.scss'
 })
 export class CommitsListComponent {
-  @Input() commits: any[] = [];
+  @Input() results: any[] = [];
   @Input() page!: number;
   @Input() perPage!: number;
   @Input() limit!: number;

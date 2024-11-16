@@ -20,54 +20,12 @@
   </ng-template>
 
   <div *ngIf="results.length > 0; else noResults">
-    <ng-container *ngIf="selectedOption === 'issues'">
-      <app-issue-list
-        [issues]="results"
-        [page]="currentPage"
-        [perPage]="pageSize"
-        [limit]="wordLimit"
-      ></app-issue-list>
-    </ng-container>
-    <ng-container *ngIf="selectedOption === 'code'">
-      <app-code-list
-        [code]="results"
-        [page]="currentPage"
-        [perPage]="pageSize"
-        [limit]="wordLimit"
-      ></app-code-list>
-    </ng-container>
-    <ng-container *ngIf="selectedOption === 'commits'">
-      <app-commits-list
-        [commits]="results"
-        [page]="currentPage"
-        [perPage]="pageSize"
-        [limit]="wordLimit"
-      ></app-commits-list>
-    </ng-container>
-    <ng-container *ngIf="selectedOption === 'repositories'">
-      <app-repos-list
-        [repos]="results"
-        [page]="currentPage"
-        [perPage]="pageSize"
-        [limit]="wordLimit"
-      ></app-repos-list>
-    </ng-container>
-    <ng-container *ngIf="selectedOption === 'topics'">
-      <app-topics-list
-        [topics]="results"
-        [page]="currentPage"
-        [perPage]="pageSize"
-        [limit]="wordLimit"
-      ></app-topics-list>
-    </ng-container>
-    <ng-container *ngIf="selectedOption === 'users'">
-      <app-users-list
-        [users]="results"
-        [page]="currentPage"
-        [perPage]="pageSize"
-        [limit]="wordLimit"
-      ></app-users-list>
-    </ng-container>
+    <ng-container
+      *ngComponentOutlet="
+        getListComponent();
+        inputs: listInputs
+      "
+    />
   </div>
 </div>
 

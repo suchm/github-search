@@ -22,7 +22,7 @@ import { RouterModule } from '@angular/router';
   styleUrl: './code-list.component.scss'
 })
 export class CodeListComponent {
-  @Input() code: any[] = [];
+  @Input() results: any[] = [];
   @Input() page!: number;
   @Input() perPage!: number;
   @Input() limit!: number;

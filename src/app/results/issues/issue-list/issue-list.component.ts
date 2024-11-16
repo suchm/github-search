@@ -22,7 +22,7 @@ import { RouterModule } from '@angular/router';
   styleUrl: './issue-list.component.scss'
 })
 export class IssueListComponent implements OnInit{
-  @Input() issues: any[] = [];
+  @Input() results: any[] = [];
   @Input() page!: number;
   @Input() perPage!: number;
   @Input() limit!: number;

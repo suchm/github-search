@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, inject } from '@angular/core';
 import { IssueListComponent } from "../results/issues/issue-list/issue-list.component";
 import { CodeListComponent } from '../results/code/code-list/code-list.component';
 import { CommitsListComponent } from '../results/commits/commits-list/commits-list.component';
@@ -27,7 +27,7 @@ import { GithubApiService } from '../github-api.service';
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   githubApiService: GithubApiService = inject(GithubApiService);
   results: any = []; // Add this property to store the search results
   query: string | null = '';
@@ -37,6 +37,19 @@ export class HomeComponent implements OnInit {
   totalResults: number = 0;
   wordLimit: number = this.githubApiService.DEFAULT_WORD_LIMIT;
   loading: boolean = false;
+  listComponent: any = null;
+
+  listInputs: {
+    results: any,
+    page: number,
+    perPage: number,
+    limit: number,
+  } = {
+    results: this.results,
+    page: this.currentPage,
+    perPage: this.pageSize,
+    limit: this.wordLimit
+  }
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -45,6 +58,10 @@ export class HomeComponent implements OnInit {
     this.currentPage = this.githubApiService.getStoredPage();
     this.selectedOption = this.githubApiService.getStoredSearchOption();
     this.wordLimit = this.githubApiService.getStoredWordLimit();
+  }
+
+  ngAfterViewInit() {
+    this.updatePaginator(); // Safe to use paginator here
   }
 
   onSliderValueChange(value: number): void {
@@ -66,10 +83,8 @@ export class HomeComponent implements OnInit {
     this.totalResults = result.totalResults;
     this.query = result.query;
 
-    if (this.paginator) {
-      this.paginator.pageIndex = this.currentPage - 1;
-      this.paginator.length = this.totalResults;
-    }
+    this.updatePaginator();
+    this.updateListComponent();
   }
 
   searchRequest() {
@@ -86,6 +101,9 @@ export class HomeComponent implements OnInit {
           this.results = data.items;
           this.totalResults = data.total_count;
           this.loading = false;
+
+          this.updatePaginator();
+          this.updateListComponent();
         },
         error: (error): void => {
           this.loading = false;
@@ -98,5 +116,35 @@ export class HomeComponent implements OnInit {
     this.pageSize = event.pageSize;
     this.currentPage = event.pageIndex + 1; // GitHub API pages start at 1
     this.searchRequest(); // Call search with the new pagination settings
+  }
+
+  getListComponent() {
+    const componentMappings: { [key: string]: any } = {
+      issues: IssueListComponent,
+      code: CodeListComponent,
+      commits: CommitsListComponent,
+      repositories: ReposListComponent,
+      topics: TopicsListComponent,
+      users: UsersListComponent,
+    };
+
+    return componentMappings[this.selectedOption] || null;
+  }
+
+  updatePaginator() {
+    if (this.paginator) {
+      this.paginator.pageIndex = this.currentPage - 1;
+      this.paginator.length = this.totalResults;
+    }
+  }
+
+  updateListComponent() {
+    this.listInputs = {
+      results: this.results,
+      page: this.currentPage,
+      perPage: this.pageSize,
+      limit: this.wordLimit
+    }
+    this.listComponent = this.getListComponent();
   }
 }

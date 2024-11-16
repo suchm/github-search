@@ -8,7 +8,7 @@ import {Component, Input} from '@angular/core';
   styleUrl: './users-list.component.scss'
 })
 export class UsersListComponent {
-  @Input() users: any[] = [];
+  @Input() results: any[] = [];
   @Input() page!: number;
   @Input() perPage!: number;
   @Input() limit!: number;

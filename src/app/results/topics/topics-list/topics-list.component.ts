@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
   styleUrl: './topics-list.component.scss'
 })
 export class TopicsListComponent {
-  @Input() topics: any[] = [];
+  @Input() results: any[] = [];
   @Input() page!: number;
   @Input() perPage!: number;
   @Input() limit!: number;
