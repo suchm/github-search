@@ -56,10 +56,10 @@ export class SearchComponent implements OnInit {
   route: ActivatedRoute  = inject(ActivatedRoute);
   githubApiService: GithubApiService = inject(GithubApiService);
   dialog: MatDialog = inject(MatDialog);
-  searchQuery: string = '';
-  selectedOption: string = 'issues'; // Set the default option here
-  pageSize: number = 20;
-  currentPage: number = 1;
+  searchQuery: string = this.githubApiService.getStoredQuery();
+  selectedOption: string = this.githubApiService.getStoredSearchOption(); // Set the default option here
+  pageSize: number = this.githubApiService.getStoredPageSize();
+  currentPage: number = this.githubApiService.getStoredPage();
 
   // Mat Slider values
   sliderDisabled: boolean = false;
@@ -67,7 +67,7 @@ export class SearchComponent implements OnInit {
   sliderMin: number = 0;
   sliderStep: number = 1;
   sliderThumbLabel: boolean = true;
-  sliderValue: number = 200;
+  sliderValue: number = this.githubApiService.getStoredWordLimit();
 
   // Toggle Flags
   isRadioGroupExpanded: boolean = false;
@@ -91,10 +91,10 @@ export class SearchComponent implements OnInit {
 
   ngOnInit(): void {
     // Initialise pagination values
-    this.searchQuery = this.githubApiService.getStoredQuery() || '';
-    this.pageSize = this.githubApiService.getStoredPageSize();
-    this.currentPage = this.githubApiService.getStoredPage();
-    this.selectedOption = this.githubApiService.getStoredSearchOption();
+    // this.searchQuery = this.githubApiService.getStoredQuery();
+    // this.pageSize = this.githubApiService.getStoredPageSize();
+    // this.currentPage = this.githubApiService.getStoredPage();
+    // this.selectedOption = this.githubApiService.getStoredSearchOption();
     this.sliderValue = this.githubApiService.getStoredWordLimit();
 
     const currentPath = this.route.snapshot.routeConfig?.path;
@@ -138,6 +138,7 @@ export class SearchComponent implements OnInit {
         }, 3000);
       }
       this.allowError = true;
+      this.emitEmptySearch();
     }
   }
 
@@ -161,14 +162,27 @@ export class SearchComponent implements OnInit {
 
   openInfoDialog(): void {
     this.dialog.open(InfoDialogComponent, {
-      width: '300px',
-      data: { message: 'Additional information about this section.' }
+      width: '300px'
     });
   }
 
   clearSearch() {
+    this.allowError = true;
     this.searchQuery = '';
     this.currentPage = this.githubApiService.DEFAULT_PAGE;
     this.pageSize = this.githubApiService.DEFAULT_PAGE_SIZE;
+
+    this.emitEmptySearch();
+  }
+
+  emitEmptySearch() {
+    this.searchResult.emit({
+      data: [],
+      type: this.selectedOption,
+      currentPage: this.currentPage,
+      pageSize: this.pageSize,
+      totalResults: 0,
+      query: this.searchQuery
+    });
   }
 }

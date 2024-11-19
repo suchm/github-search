@@ -47,10 +47,6 @@ export class IssueDetailComponent implements OnInit {
     });
   }
 
-  onSearchResult(searchParams: { query: string, type: string, pageSize: number, currentPage: number }) {
-    this.router.navigate(['/']);
-  }
-
   goBack() {
     this.router.navigate(['/']); // Adjust route as needed
   }

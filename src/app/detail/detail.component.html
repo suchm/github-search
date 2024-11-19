@@ -1,0 +1,5 @@
+<app-search (searchResult)="onSearchResult($event)"></app-search>
+
+<div class="container">
+    <ng-container *ngComponentOutlet="getListComponent();"/>
+</div>

@@ -6,6 +6,7 @@ import { CommitsDetailComponent } from './results/commits/commits-detail/commits
 import { ReposDetailComponent } from './results/repos/repos-detail/repos-detail.component';
 import { TopicsDetailComponent } from './results/topics/topics-detail/topics-detail.component';
 import { UsersDetailComponent } from './results/users/users-detail/users-detail.component';
+import { DetailComponent } from './detail/detail.component';
 
 export const routes: Routes = [
   {
@@ -14,33 +15,8 @@ export const routes: Routes = [
     title: 'Home Page'
   },
   {
-    path: 'issues/:id',
-    component: IssueDetailComponent,
-    title: 'Issues Detail Page'
-  },
-  {
-    path: 'code/:id',
-    component: CodeDetailComponent,
-    title: 'Code Detail Page'
-  },
-  {
-    path: 'commits/:id',
-    component: CommitsDetailComponent,
-    title: 'Commits Detail Page'
-  },
-  {
-    path: 'repositories/:id',
-    component: ReposDetailComponent,
-    title: 'Repositories Detail Page'
-  },
-  {
-    path: 'topics/:id',
-    component: TopicsDetailComponent,
-    title: 'Topics Detail Page'
-  },
-  {
-    path: 'users/:id',
-    component: UsersDetailComponent,
-    title: 'Topics Detail Page'
+    path: ':searchOption/:id',
+    component: DetailComponent,
+    title: 'Detail Page'
   }
   ];
